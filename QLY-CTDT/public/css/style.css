@@ -1,0 +1,93 @@
+/* Thiết lập chung */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+}
+
+/* Thanh điều hướng */
+nav {
+    background-color: #007BFF;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+nav .logo {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Nội dung chính */
+.content {
+    padding: 20px;
+    text-align: center;
+}
+
+/* Trang chủ */
+.welcome-container {
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+    padding: 50px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-container h1 {
+    font-size: 28px;
+    color: #007BFF;
+}
+
+.welcome-container p {
+    font-size: 18px;
+    color: #333;
+}
+
+/* Nút bấm */
+.button {
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.button.primary {
+    background-color: #007BFF;
+    color: white;
+}
+
+.button.secondary {
+    background-color: #28a745;
+    color: white;
+}
+
+.button:hover {
+    transform: scale(1.05);
+}
