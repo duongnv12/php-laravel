@@ -1,34 +1,38 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <!-- Phần biểu đồ -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Biểu đồ cột -->
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                    <h3 class="text-lg font-medium mb-4">Biểu đồ cột (Bar Chart)</h3>
-                    <canvas id="barChart"></canvas>
-                </div>
-                <!-- Biểu đồ tròn -->
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                    <h3 class="text-lg font-medium mb-4">Biểu đồ tròn (Pie Chart)</h3>
-                    <canvas id="pieChart"></canvas>
-                </div>
+@section('header')
+    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        {{ __('Dashboard') }}
+    </h2>
+@endsection
+
+@section('content')
+<div class="py-12">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <!-- Phần biểu đồ -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Biểu đồ cột -->
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <h3 class="text-lg font-medium mb-4">Biểu đồ cột (Bar Chart)</h3>
+                <canvas id="barChart"></canvas>
             </div>
-            <!-- Nội dung khác của Dashboard -->
-            <div class="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <div class="text-gray-900">
-                    {{ __("You're logged in!") }}
-                </div>
+            <!-- Biểu đồ tròn -->
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <h3 class="text-lg font-medium mb-4">Biểu đồ tròn (Pie Chart)</h3>
+                <canvas id="pieChart"></canvas>
+            </div>
+        </div>
+        <!-- Nội dung khác của Dashboard -->
+        <div class="mt-8 bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+            <div class="text-gray-900">
+                {{ __("You're logged in!") }}
             </div>
         </div>
     </div>
+</div>
+@endsection
 
+@section('scripts')
     <!-- Thêm Chart.js qua CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -100,4 +104,4 @@
             });
         });
     </script>
-</x-app-layout>
+@endsection

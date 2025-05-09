@@ -1,61 +1,208 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Training Manager
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Training Manager là một ứng dụng web được xây dựng trên nền tảng Laravel, giúp quản lý các module về Sinh viên, Khóa học và Tiến độ học tập. Ứng dụng hỗ trợ các tác vụ CRUD (Tạo, Đọc, Cập nhật, Xóa) cho các module trên, đồng thời tích hợp nghiệp vụ tự động cập nhật trạng thái tiến độ (dựa trên điểm số của sinh viên) và hiển thị báo cáo qua Dashboard với các biểu đồ (sử dụng Chart.js).
 
-## About Laravel
+## Mục lục
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- [Tính năng chính](#tính-năng-chính)
+- [Công nghệ sử dụng](#công-nghệ-sử-dụng)
+- [Cấu trúc dự án](#cấu-trúc-dự-án)
+- [Cài đặt và cấu hình](#cài-đặt-và-cấu-hình)
+- [Hướng dẫn sử dụng](#hướng-dẫn-sử-dụng)
+- [Nghiệp vụ và luồng xử lý](#nghiệp-vụ-và-luồng-xử-lý)
+- [Các route chính](#các-route-chính)
+- [Liên hệ](#liên-hệ)
+- [License](#license)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tính năng chính
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Quản lý Sinh viên**  
+  - Tạo, hiển thị, chỉnh sửa và xóa thông tin sinh viên (tên, email, số điện thoại, ngày sinh).
+  
+- **Quản lý Khóa học**  
+  - Quản lý thông tin khóa học, bao gồm tiêu đề, mô tả, ngày bắt đầu và ngày kết thúc.
+  
+- **Quản lý Tiến độ học tập**  
+  - Liên kết sinh viên với khóa học thông qua bảng tiến độ.
+  - Cập nhật thông tin tiến độ (điểm số, trạng thái) tự động dựa trên nghiệp vụ: nếu điểm ≥ 5, trạng thái được cập nhật là "completed", ngược lại là "pending".
+  
+- **Dashboard báo cáo**  
+  - Trang Dashboard tích hợp các biểu đồ báo cáo (biểu đồ cột và biểu đồ tròn) sử dụng Chart.js, giúp có cái nhìn tổng quan về dữ liệu.
+  
+- **Quản lý thông tin người dùng (Profile)**  
+  - Cho phép người dùng cập nhật thông tin cá nhân, thay đổi mật khẩu và xóa tài khoản.
 
-## Learning Laravel
+## Công nghệ sử dụng
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Back-end:** PHP 8.x, Laravel 12.x  
+- **Cơ sở dữ liệu:** MySQL  
+- **Front-end:** Tailwind CSS, Chart.js  
+- **Quản lý phiên bản và build assets:** Composer, NPM (Vite)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Cấu trúc dự án
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```
+.
+├── app
+│   ├── Http
+│   │   ├── Controllers
+│   │   │   ├── CourseController.php
+│   │   │   ├── ProgressController.php
+│   │   │   ├── ProfileController.php
+│   │   │   └── StudentController.php
+│   │   └── ...
+│   ├── Models
+│   │   ├── Course.php
+│   │   ├── Progress.php
+│   │   └── Student.php
+│   ├── Observers
+│   │   └── ProgressObserver.php
+│   └── Services
+│       └── ProgressService.php
+├── database
+│   ├── migrations
+│   │   ├── create_students_table.php
+│   │   ├── create_courses_table.php
+│   │   ├── create_progresses_table.php
+│   │   └── create_course_student_table.php
+│   └── seeders
+├── resources
+│   ├── views
+│   │   ├── dashboard.blade.php
+│   │   ├── layouts
+│   │   │   └── app.blade.php
+│   │   ├── profile
+│   │   │   ├── edit.blade.php
+│   │   │   └── partials
+│   │   │       ├── delete-user-form.blade.php
+│   │   │       ├── update-password-form.blade.php
+│   │   │       └── update-profile-information-form.blade.php
+│   │   ├── students
+│   │   │   ├── create.blade.php
+│   │   │   ├── edit.blade.php
+│   │   │   ├── index.blade.php
+│   │   │   └── show.blade.php
+│   │   ├── courses
+│   │   │   ├── create.blade.php
+│   │   │   ├── edit.blade.php
+│   │   │   ├── index.blade.php
+│   │   │   └── show.blade.php
+│   │   └── progresses
+│   │       ├── create.blade.php
+│   │       ├── edit.blade.php
+│   │       ├── index.blade.php
+│   │       └── show.blade.php
+│   └── ...
+├── routes
+│   └── web.php
+├── public
+└── README.md
+```
 
-## Laravel Sponsors
+## Cài đặt và cấu hình
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+1. **Clone dự án:**
 
-### Premium Partners
+   ```bash
+   git clone [repository-url]
+   cd training_manager
+   ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
+2. **Cài đặt các PHP packages qua Composer:**
 
-## Contributing
+   ```bash
+   composer install
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+3. **Cài đặt các Node packages và build front-end assets:**
 
-## Code of Conduct
+   ```bash
+   npm install
+   npm run dev
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+4. **Cấu hình file .env:**
 
-## Security Vulnerabilities
+   - Sao chép file mẫu:
+     ```bash
+     cp .env.example .env
+     ```
+   - Sửa thông tin kết nối cơ sở dữ liệu:
+     ```
+     DB_CONNECTION=mysql
+     DB_HOST=127.0.0.1
+     DB_PORT=3306
+     DB_DATABASE=training_manager
+     DB_USERNAME=root
+     DB_PASSWORD=
+     ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+5. **Chạy migrations:**
+
+   ```bash
+   php artisan migrate
+   ```
+
+6. **(Tùy chọn) Seed dữ liệu mẫu:**
+
+   ```bash
+   php artisan db:seed
+   ```
+
+7. **Chạy ứng dụng:**
+
+   ```bash
+   php artisan serve
+   ```
+
+## Hướng dẫn sử dụng
+
+- **Dashboard quản trị:**  
+  Truy cập tại `/admin/dashboard` (hoặc theo cấu trúc route đã thiết lập) để xem các biểu đồ báo cáo và tổng hợp dữ liệu.
+
+- **Quản lý Sinh viên:**  
+  Truy cập `/students` để thực hiện các thao tác quản lý thông tin sinh viên.
+
+- **Quản lý Khóa học:**  
+  Truy cập `/courses` để quản lý danh mục khóa học.
+
+- **Quản lý Tiến độ học tập:**  
+  Truy cập `/progresses` để theo dõi tiến độ của sinh viên trong từng khóa học.  
+  Khi thêm mới hay cập nhật tiến độ, hệ thống sẽ tự động cập nhật trạng thái (completed/pending) dựa trên điểm số.
+
+- **Profile cá nhân:**  
+  Người dùng có thể cập nhật thông tin cá nhân tại `/admin/profile`.
+
+## Nghiệp vụ và luồng xử lý
+
+- **Đăng ký & Liên kết:**  
+  Sinh viên được liên kết với khóa học thông qua bảng pivot và bảng tiến độ. Điều này cho phép lưu trữ thông tin tiến độ học tập cho từng sinh viên trong mỗi khóa học.
+
+- **Tự động cập nhật tiến độ:**  
+  - Khi một bản ghi tiến độ được lưu (tạo mới hoặc cập nhật), một Observer (ProgressObserver) sẽ tự động gọi ProgressService để kiểm tra điểm số.
+  - Nếu `score` không null và ≥ 5, trạng thái sẽ được cập nhật là `completed`, ngược lại sẽ là `pending`.
+
+- **Báo cáo Dashboard:**  
+  Trang Dashboard tích hợp Chart.js để hiển thị biểu đồ cột và biểu đồ tròn, cung cấp số liệu trực quan về dữ liệu đăng ký và tiến độ học tập.
+
+## Các route chính
+
+- **Trang chủ:** `/`
+- **Dashboard:**  
+  `/admin/dashboard`
+- **Profile:**  
+  `/admin/profile`
+- **Module Sinh viên:**  
+  `/students`  
+- **Module Khóa học:**  
+  `/courses`  
+- **Module Tiến độ học tập:**  
+  `/progresses`
+
+## Liên hệ
+
+Nếu có bất kỳ thắc mắc hoặc góp ý nào, vui lòng liên hệ qua email: [email của bạn] hoặc mở issue trên repository.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-sourced under the [MIT License](LICENSE).

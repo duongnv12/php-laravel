@@ -8,8 +8,19 @@
 </head>
 <body>
     <?php include("menu.php"); ?>
+
     <div>
         <h2>Thêm môn học mới</h2>
+
+        <?php
+        // Hiển thị thông báo nếu có
+        if (isset($_GET['success'])) {
+            echo "<p style='color: green;'>Thêm môn học thành công!</p>";
+        } elseif (isset($_GET['error'])) {
+            echo "<p style='color: red;'>Lỗi: " . $_GET['error'] . "</p>";
+        }
+        ?>
+
         <form method="post" action="process_add_course.php">
             <div>
                 <label for="course_id">Mã môn học:</label>
@@ -36,6 +47,5 @@
             </div>
         </form>
     </div>
-    
 </body>
 </html>
