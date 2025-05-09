@@ -17,10 +17,26 @@ class Student extends Model
         'dob' => 'date',
     ];
 
-    // Nếu sinh viên tham gia khóa học theo mối quan hệ many-to-many:
+
+    // Nếu có mối quan hệ với bảng enrollments:
+    // Mối quan hệ 1-n với bảng enrollments
+    // Một sinh viên có thể có nhiều đăng ký môn học
+    // Một sinh viên có thể đăng ký nhiều môn học
+    // Một môn học có thể có nhiều sinh viên đăng ký
+    // Một sinh viên có thể có nhiều môn học
+    // Một môn học có thể có nhiều sinh viên
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
+
+    // Nếu có mối quan hệ với bảng courses thông qua bảng enrollments:
     public function courses()
     {
-        return $this->belongsToMany(Course::class, 'course_student', 'student_id', 'course_id');
+        // Qua bảng enrollments, lấy các môn học mà sinh viên đã đăng ký
+        return $this->belongsToMany(Course::class, 'enrollments')
+                    ->withPivot('status', 'grade')
+                    ->withTimestamps();
     }
 
     // Nếu có mối quan hệ với tiến độ học tập:

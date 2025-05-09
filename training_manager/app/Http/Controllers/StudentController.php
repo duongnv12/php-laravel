@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\StudentsImport;
 
 class StudentController extends Controller
 {
@@ -68,5 +70,25 @@ class StudentController extends Controller
         $student->delete();
 
         return redirect()->route('students.index')->with('success', 'Sinh viên được xóa thành công.');
+    }
+
+    public function importForm()
+    {
+        return view('students.import');
+    }
+
+    /**
+     * Xử lý nhập danh sách sinh viên từ file Excel.
+     */
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv'
+        ]);
+
+        Excel::import(new StudentsImport, $request->file('file'));
+
+        return redirect()->route('students.index')
+                         ->with('success', 'Danh sách sinh viên đã được nhập thành công.');
     }
 }

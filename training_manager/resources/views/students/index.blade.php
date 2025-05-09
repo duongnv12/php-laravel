@@ -8,16 +8,18 @@
 
 @section('content')
 <div class="container mx-auto py-8">
-    <div class="mb-4">
-        <a href="{{ route('students.create') }}" class="px-4 py-2 bg-blue-500 text-white rounded">Thêm Sinh viên mới</a>
+    <div class="flex justify-between items-center mb-4">
+        <a href="{{ route('students.create') }}" class="px-4 py-2 bg-blue-500 text-white rounded">Thêm Sinh viên</a>
+        <!-- Button nhập danh sách sinh viên từ Excel -->
+        <a href="{{ route('students.import') }}" class="px-4 py-2 bg-green-500 text-white rounded">
+            Import Sinh viên
+        </a>
     </div>
-
     @if($students->count())
         <div class="overflow-x-auto">
-            <table class="min-w-full table-fixed bg-white border-collapse">
+            <table class="min-w-full table-auto bg-white border-collapse">
                 <thead>
                     <tr>
-                        <!-- Cột ID được giới hạn bằng lớp w-1/12 (có thể thay đổi tùy theo yêu cầu) -->
                         <th class="py-2 px-4 border-b text-left w-1/12">ID</th>
                         <th class="py-2 px-4 border-b text-left w-2/12">Tên</th>
                         <th class="py-2 px-4 border-b text-left w-3/12">Email</th>
@@ -42,7 +44,9 @@
                             <form action="{{ route('students.destroy', $student->id) }}" method="POST" class="inline-block ml-2">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa?')" class="text-red-600 hover:underline">Xóa</button>
+                                <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa?')" class="text-red-600 hover:underline">
+                                    Xóa
+                                </button>
                             </form>
                         </td>
                     </tr>

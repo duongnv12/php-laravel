@@ -9,6 +9,21 @@
 @section('content')
 <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <!-- Phần thống kê số liệu -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <h3 class="text-lg font-medium mb-4">Tổng đăng ký học</h3>
+                <p class="text-3xl">{{ $totalEnrollments }}</p>
+            </div>
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <h3 class="text-lg font-medium mb-4">Đăng ký hoàn thành</h3>
+                <p class="text-3xl">{{ $completedEnrollments }}</p>
+            </div>
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <h3 class="text-lg font-medium mb-4">Tỷ lệ hoàn thành</h3>
+                <p class="text-3xl">{{ $completionRate }}%</p>
+            </div>
+        </div>
         <!-- Phần biểu đồ -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Biểu đồ cột -->

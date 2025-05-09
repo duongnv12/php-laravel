@@ -22,15 +22,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (mysqli_query($conn, $sql)) {
         // Redirect về `add_course.php` với thông báo thành công
         header("Location: add_course.php?success=1");
+        // Đóng kết nối
+        mysqli_close($conn);
         exit();
     } else {
+        // Đóng kết nối
+        mysqli_close($conn);
         // Redirect về `add_course.php` với thông báo lỗi
         header("Location: add_course.php?error=" . urlencode(mysqli_error($conn)));
         exit();
     }
-
-    // Đóng kết nối
-    mysqli_close($conn);
 } else {
     // Nếu truy cập trực tiếp `process_add_course.php`, quay về `add_course.php`
     header("Location: add_course.php");
