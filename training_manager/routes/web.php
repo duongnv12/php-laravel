@@ -9,6 +9,7 @@ use App\Http\Controllers\CohortController;
 use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SemesterController;
 
 // Trang chủ public
 Route::get('/', function () {
@@ -37,6 +38,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('cohorts', CohortController::class);
     Route::resource('progresses', ProgressController::class);
     Route::resource('enrollments', EnrollmentController::class);
+    Route::resource('semesters', SemesterController::class);
 }); // Đóng nhóm middleware
 
 // Các route xác thực mặc định của Laravel Breeze/Jetstream …

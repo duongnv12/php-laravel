@@ -1,6 +1,6 @@
 # Training Manager
 
-Training Manager là một ứng dụng web được xây dựng trên nền tảng Laravel, giúp quản lý các module về Sinh viên, Khóa học và Tiến độ học tập. Ứng dụng hỗ trợ các tác vụ CRUD (Tạo, Đọc, Cập nhật, Xóa) cho các module trên, đồng thời tích hợp nghiệp vụ tự động cập nhật trạng thái tiến độ (dựa trên điểm số của sinh viên) và hiển thị báo cáo qua Dashboard với các biểu đồ (sử dụng Chart.js).
+Training Manager là một ứng dụng web được xây dựng trên nền tảng Laravel, hỗ trợ quản lý các module về Sinh viên, Môn học, Chương trình đào tạo, Niên khóa, Đăng ký học (Enrollment) và Theo dõi tiến độ học tập. Ứng dụng tích hợp nghiệp vụ tự động cập nhật trạng thái tiến độ học tập (dựa trên điểm số của sinh viên) và trình bày báo cáo thông qua Dashboard với các biểu đồ tương tác sử dụng Chart.js.
 
 ## Mục lục
 
@@ -16,20 +16,25 @@ Training Manager là một ứng dụng web được xây dựng trên nền t�
 
 ## Tính năng chính
 
-- **Quản lý Sinh viên**  
-  - Tạo, hiển thị, chỉnh sửa và xóa thông tin sinh viên (tên, email, số điện thoại, ngày sinh).
+- **Quản lý Sinh viên:**  
+  - Tạo, hiển thị, chỉnh sửa và xóa thông tin của sinh viên (tên, email, số điện thoại, ngày sinh,...).
+
+- **Quản lý Môn học:**  
+  - Quản lý thông tin các môn học, bao gồm mã môn, tên, mô tả, số tín chỉ,…  
+  - Hỗ trợ liên kết các môn tiên quyết (nếu có).
+
+- **Quản lý Đăng ký học (Enrollment):**  
+  - Liên kết sinh viên với các môn học; lưu trữ thông tin về trạng thái đăng ký (registered, completed, failed) và điểm số.
+  - Cho phép giảng viên hoặc admin cập nhật tiến độ học tập của sinh viên trên từng môn học.
+
+- **Quản lý Tiến độ học tập:**  
+  - Tự động cập nhật trạng thái của tiến độ học tập (completed/pending) dựa trên điểm số, thông qua Observer và Service.
   
-- **Quản lý Khóa học**  
-  - Quản lý thông tin khóa học, bao gồm tiêu đề, mô tả, ngày bắt đầu và ngày kết thúc.
-  
-- **Quản lý Tiến độ học tập**  
-  - Liên kết sinh viên với khóa học thông qua bảng tiến độ.
-  - Cập nhật thông tin tiến độ (điểm số, trạng thái) tự động dựa trên nghiệp vụ: nếu điểm ≥ 5, trạng thái được cập nhật là "completed", ngược lại là "pending".
-  
-- **Dashboard báo cáo**  
-  - Trang Dashboard tích hợp các biểu đồ báo cáo (biểu đồ cột và biểu đồ tròn) sử dụng Chart.js, giúp có cái nhìn tổng quan về dữ liệu.
-  
-- **Quản lý thông tin người dùng (Profile)**  
+- **Dashboard báo cáo:**  
+  - Trang dashboard hiển thị các số liệu thống kê như tổng số đăng ký, số đăng ký hoàn thành, tỷ lệ hoàn thành,...
+  - Tích hợp nhiều loại biểu đồ (Bar Chart, Pie Chart, Line Chart, Doughnut Chart) sử dụng Chart.js để báo cáo trực quan.
+
+- **Quản lý thông tin người dùng (Profile):**  
   - Cho phép người dùng cập nhật thông tin cá nhân, thay đổi mật khẩu và xóa tài khoản.
 
 ## Công nghệ sử dụng
@@ -47,51 +52,42 @@ Training Manager là một ứng dụng web được xây dựng trên nền t�
 │   ├── Http
 │   │   ├── Controllers
 │   │   │   ├── CourseController.php
+│   │   │   ├── EnrollmentController.php
+│   │   │   ├── DashboardController.php
 │   │   │   ├── ProgressController.php
 │   │   │   ├── ProfileController.php
 │   │   │   └── StudentController.php
 │   │   └── ...
 │   ├── Models
 │   │   ├── Course.php
+│   │   ├── Enrollment.php
 │   │   ├── Progress.php
 │   │   └── Student.php
-│   ├── Observers
-│   │   └── ProgressObserver.php
-│   └── Services
-│       └── ProgressService.php
+│   └── ...
 ├── database
 │   ├── migrations
 │   │   ├── create_students_table.php
 │   │   ├── create_courses_table.php
+│   │   ├── create_enrollments_table.php
 │   │   ├── create_progresses_table.php
-│   │   └── create_course_student_table.php
+│   │   └── ... (các bảng khác như programs, cohorts)
 │   └── seeders
 ├── resources
 │   ├── views
-│   │   ├── dashboard.blade.php
+│   │   ├── dashboard
+│   │   │   └── index.blade.php
 │   │   ├── layouts
 │   │   │   └── app.blade.php
 │   │   ├── profile
-│   │   │   ├── edit.blade.php
-│   │   │   └── partials
-│   │   │       ├── delete-user-form.blade.php
-│   │   │       ├── update-password-form.blade.php
-│   │   │       └── update-profile-information-form.blade.php
+│   │   │   └── ... (các file profile)
 │   │   ├── students
-│   │   │   ├── create.blade.php
-│   │   │   ├── edit.blade.php
-│   │   │   ├── index.blade.php
-│   │   │   └── show.blade.php
+│   │   │   └── ... (CRUD views)
 │   │   ├── courses
-│   │   │   ├── create.blade.php
-│   │   │   ├── edit.blade.php
-│   │   │   ├── index.blade.php
-│   │   │   └── show.blade.php
-│   │   └── progresses
-│   │       ├── create.blade.php
-│   │       ├── edit.blade.php
-│   │       ├── index.blade.php
-│   │       └── show.blade.php
+│   │   │   └── ... (CRUD views)
+│   │   ├── progresses
+│   │   │   └── ... (CRUD views)
+│   │   └── enrollments
+│   │       └── ... (CRUD views)
 │   └── ...
 ├── routes
 │   └── web.php
@@ -158,46 +154,43 @@ Training Manager là một ứng dụng web được xây dựng trên nền t�
 ## Hướng dẫn sử dụng
 
 - **Dashboard quản trị:**  
-  Truy cập tại `/admin/dashboard` (hoặc theo cấu trúc route đã thiết lập) để xem các biểu đồ báo cáo và tổng hợp dữ liệu.
+  Truy cập `/dashboard` để xem các số liệu thống kê và biểu đồ báo cáo (Bar, Pie, Line, Doughnut) được tích hợp qua Chart.js.
 
 - **Quản lý Sinh viên:**  
-  Truy cập `/students` để thực hiện các thao tác quản lý thông tin sinh viên.
+  Truy cập `/students` để thực hiện các thao tác quản lý dữ liệu sinh viên.
 
-- **Quản lý Khóa học:**  
-  Truy cập `/courses` để quản lý danh mục khóa học.
+- **Quản lý Môn học:**  
+  Truy cập `/courses` để quản lý thông tin các môn học.
+
+- **Quản lý Đăng ký học (Enrollment):**  
+  Truy cập `/enrollments` để đăng ký môn học của sinh viên và theo dõi tiến độ học tập từng môn.
 
 - **Quản lý Tiến độ học tập:**  
-  Truy cập `/progresses` để theo dõi tiến độ của sinh viên trong từng khóa học.  
-  Khi thêm mới hay cập nhật tiến độ, hệ thống sẽ tự động cập nhật trạng thái (completed/pending) dựa trên điểm số.
+  Truy cập `/progresses` để theo dõi và cập nhật kết quả học tập của sinh viên (tự động chuyển trạng thái dựa trên điểm số).
 
 - **Profile cá nhân:**  
-  Người dùng có thể cập nhật thông tin cá nhân tại `/admin/profile`.
+  Cập nhật thông tin cá nhân tại `/profile`.
 
 ## Nghiệp vụ và luồng xử lý
 
 - **Đăng ký & Liên kết:**  
-  Sinh viên được liên kết với khóa học thông qua bảng pivot và bảng tiến độ. Điều này cho phép lưu trữ thông tin tiến độ học tập cho từng sinh viên trong mỗi khóa học.
+  Sinh viên được liên kết với môn học qua bảng Enrollment, cho phép lưu trữ thông tin tiến độ cùng với điểm số và trạng thái (registered/completed/failed).
 
 - **Tự động cập nhật tiến độ:**  
-  - Khi một bản ghi tiến độ được lưu (tạo mới hoặc cập nhật), một Observer (ProgressObserver) sẽ tự động gọi ProgressService để kiểm tra điểm số.
-  - Nếu `score` không null và ≥ 5, trạng thái sẽ được cập nhật là `completed`, ngược lại sẽ là `pending`.
+  Khi tiến độ học tập được lưu (tạo mới hoặc cập nhật), Observer và ProgressService tự động kiểm tra điểm số và cập nhật trạng thái tương ứng (completed khi điểm ≥ 5, ngược lại là pending).
 
 - **Báo cáo Dashboard:**  
-  Trang Dashboard tích hợp Chart.js để hiển thị biểu đồ cột và biểu đồ tròn, cung cấp số liệu trực quan về dữ liệu đăng ký và tiến độ học tập.
+  Dashboard tổng hợp thống kê số liệu và hiển thị qua các biểu đồ tùy chỉnh (sử dụng Chart.js), giúp ban quản trị và giảng viên có cái nhìn tổng quan về dữ liệu đào tạo.
 
 ## Các route chính
 
 - **Trang chủ:** `/`
-- **Dashboard:**  
-  `/admin/dashboard`
-- **Profile:**  
-  `/admin/profile`
-- **Module Sinh viên:**  
-  `/students`  
-- **Module Khóa học:**  
-  `/courses`  
-- **Module Tiến độ học tập:**  
-  `/progresses`
+- **Dashboard:** `/dashboard`
+- **Profile:** `/profile`
+- **Module Sinh viên:** `/students`
+- **Module Môn học:** `/courses`
+- **Module Đăng ký học (Enrollment):** `/enrollments`
+- **Module Tiến độ học tập:** `/progresses`
 
 ## Liên hệ
 

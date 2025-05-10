@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Enrollment;
-use App\Models\Student;
+use App\Models\Semester;
 use App\Models\Course;
 
 class EnrollmentController extends Controller
@@ -20,14 +20,16 @@ class EnrollmentController extends Controller
     // Hiển thị form đăng ký cho sinh viên (chọn các môn học)
     public function create()
     {
-        // Lấy danh sách tất cả môn học để sinh viên đăng ký
+        // Lấy danh sách các kỳ học hiện có để người dùng lựa chọn
+        $semesters = Semester::all();
         $courses = Course::all();
-        
-        // Giả sử bạn lấy thông tin sinh viên từ session (hoặc auth)
+
+        // Giả sử sinh viên lấy từ auth, hãy kiểm tra thực tế dự án của bạn
         $student = auth()->user();
-        
-        return view('enrollments.create', compact('courses', 'student'));
+
+        return view('enrollments.create', compact('semesters', 'courses', 'student'));
     }
+
 
     // Lưu đăng ký
     public function store(Request $request)

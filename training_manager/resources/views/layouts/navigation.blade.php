@@ -35,9 +35,12 @@
                     <x-nav-link :href="route('enrollments.index')" :active="request()->routeIs('enrollments.*')">
                         {{ __('Đăng ký học') }}
                     </x-nav-link>
+                    <!-- Link cho Kỳ học -->
+                    <x-nav-link :href="route('semesters.index')" :active="request()->routeIs('semesters.*')">
+                        {{ __('Kỳ học') }}
+                    </x-nav-link>
                 </div>
             </div>
-
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
