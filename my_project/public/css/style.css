@@ -1,0 +1,165 @@
+/* public/css/style.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 40px auto;
+    background-color: #fff;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+form label {
+    display: block;
+    margin-top: 15px;
+    color: #555;
+}
+
+form input[type="text"],
+form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+
+form button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px;
+    background-color: #3490dc;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #2779bd;
+}
+
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.add-button {
+    display: block;
+    text-align: center;
+    margin: 20px auto;
+    width: 150px;
+    padding: 10px;
+    background-color: #28a745;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.add-button:hover {
+    background-color: #218838;
+}
+
+.news-item {
+    background-color: #f1f1f1;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 10px 0;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.news-item h2 {
+    color: #333;
+}
+
+.news-item p {
+    color: #666;
+}
+
+.btn {
+    display: inline-block;
+    padding: 8px 12px;
+    margin-top: 10px;
+    background-color: #3490dc;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.btn:hover {
+    background-color: #2779bd;
+}
+
+.edit {
+    background-color: #ffc107;
+}
+
+.edit:hover {
+    background-color: #d39e00;
+}
+
+/* public/css/style.css */
+
+.news-description {
+    font-size: 18px;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.news-content {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-left: 4px solid #3490dc;
+    font-size: 16px;
+    color: #333;
+    border-radius: 5px;
+    line-height: 1.6;
+}
+
+.btn.back {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #6c757d;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.btn.back:hover {
+    background-color: #5a6268;
+}
+
+.btn.delete {
+    background-color: #dc3545;
+    border: none;
+    padding: 8px 12px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn.delete:hover {
+    background-color: #c82333;
+}
